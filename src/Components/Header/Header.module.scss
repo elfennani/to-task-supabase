@@ -1,0 +1,42 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-bottom: 2px solid var(--border);
+    height: 96px;
+
+    > div {
+        display: flex;
+        align-items: center;
+        height: 96px;
+    }
+
+    h1 {
+        font-weight: 700;
+        flex: 1;
+        margin: 0;
+    }
+
+    nav {
+        background-color: #e8eaf0;
+        padding: 4px;
+        display: flex;
+        gap: 4px;
+
+        a {
+            display: block;
+            text-decoration: none;
+            text-transform: capitalize;
+            color: var(--text);
+            padding: 4px 8px;
+            opacity: 0.7;
+
+            &.active {
+                opacity: 1;
+                background-color: white;
+            }
+        }
+    }
+}

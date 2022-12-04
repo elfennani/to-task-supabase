@@ -1,0 +1,33 @@
+:root {
+    --primary: #1582ff;
+    --border: #e7eaf0;
+    --text: #000c1a;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Outfit, Arial, Helvetica, sans-serif;
+    background-color: #f5f7fb;
+    color: var(--text);
+    padding-top: 128px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+.primary {
+    color: var(--primary);
+}
+
+.container {
+    width: 632px;
+    padding: 0 16px;
+    max-width: 100%;
+    margin: 0 auto;
+}

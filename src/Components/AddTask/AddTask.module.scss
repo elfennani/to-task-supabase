@@ -1,0 +1,247 @@
+.imgsList {
+    --img-size: 192px;
+
+    display: flex;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    // height: var(--img-size);
+    padding: 16px;
+    padding-bottom: 0;
+    gap: 16px;
+    box-sizing: content-box;
+
+    > div,
+    > label {
+        flex: 0 0 var(--img-size);
+        height: var(--img-size);
+        width: var(--img-size);
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        color: #8798ab;
+
+        span {
+            margin-right: 8px;
+        }
+
+        input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+        }
+    }
+
+    img {
+        height: 100%;
+        width: 100%;
+        border: 2px solid var(--border);
+        object-fit: cover;
+    }
+}
+
+.addTask {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    position: relative;
+
+    > :first-child {
+        flex: 1;
+    }
+
+    &.imageSelected {
+        min-height: 128px;
+        padding-right: 160px;
+    }
+
+    .input {
+        font-size: 16px;
+        color: #8798ab;
+        display: flex;
+        padding: 8px 0;
+
+        .textHolder {
+            display: grid;
+            align-items: stretch;
+            flex: 1;
+            justify-content: stretch;
+
+            textarea,
+            &::after {
+                font-size: 1rem;
+                grid-area: 2/1;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            &::after {
+                content: attr(data-content) " ";
+                visibility: hidden;
+                white-space: pre-wrap;
+            }
+        }
+
+        textarea {
+            resize: none;
+            border: none;
+            background-color: transparent;
+            font-family: Outfit, Arial, Helvetica, sans-serif;
+            outline: none;
+            padding: 0;
+            color: #000000;
+            appearance: none;
+
+            &::placeholder {
+                color: #8798ab;
+                opacity: 1;
+            }
+        }
+
+        span {
+            font-size: 18px;
+            margin-right: 16px;
+        }
+    }
+
+    .imageInput {
+        background-color: var(--border);
+        border: none;
+        font-family: Outfit, Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.72px;
+        color: #8798ab;
+        padding: 8px 16px;
+        transition: background-color 0.1s;
+        cursor: pointer;
+        -webkit-user-select: none;
+        user-select: none;
+        position: relative;
+
+        * {
+            cursor: pointer;
+        }
+
+        &:hover {
+            background-color: #e1e5ea;
+
+            .edit {
+                opacity: 1;
+            }
+        }
+
+        &.imageSelected {
+            width: 128px;
+            padding: 0;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            bottom: 16px;
+            border: 1px solid var(--border);
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .edit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba($color: #000000, $alpha: 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.15s;
+
+            span {
+                margin: 0;
+                font-size: 18px;
+            }
+        }
+
+        input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        span {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+    }
+}
+
+.divider {
+    margin: 0 16px;
+    background-color: var(--border);
+    height: 1px;
+}
+
+.card {
+    footer {
+        display: flex;
+        padding: 0 16px;
+        padding-top: 0;
+        height: 0;
+        transition: all;
+        align-items: flex-end;
+        overflow: hidden;
+        box-sizing: content-box;
+        transition: all 0.5s ease-in-out;
+        opacity: 0;
+
+        &.show {
+            height: 32px;
+            padding: 16px;
+            opacity: 1;
+        }
+
+        > ul {
+            flex: 1;
+        }
+
+        button {
+            height: 32px;
+            border-radius: 0;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-family: Outfit, Arial, Helvetica, sans-serif;
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: all 0.2s;
+
+            &:hover {
+                background-color: #1273e1;
+            }
+        }
+    }
+}

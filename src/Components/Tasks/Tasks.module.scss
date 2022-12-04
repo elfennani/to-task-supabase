@@ -1,0 +1,71 @@
+.taskContainer {
+    margin-top: 32px;
+    margin-bottom: 32px;
+
+    .innerContainer {
+        flex-direction: column;
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    // transform: translateY(-4px);
+    opacity: 0.5;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+        color: #8798ab;
+        outline: none;
+        font-size: 18px;
+        transition: background-color 0.2s;
+        width: 32px;
+        height: 32px;
+
+        &:hover {
+            background-color: var(--border);
+        }
+    }
+}
+
+.taskItem {
+    padding: 16px;
+    background-color: white;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+
+    &.checked {
+        opacity: 0.5;
+        transition: opacity 0.3s ease-in-out;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        p {
+            text-decoration: line-through;
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .content {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 8px;
+    }
+}
