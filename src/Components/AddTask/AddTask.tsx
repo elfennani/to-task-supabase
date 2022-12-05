@@ -9,69 +9,32 @@ import {
 import { useState } from "react";
 import ImagePreview from "./ImagePreview";
 import Categories from "../Categories";
-import { v4 as uuidv4 } from "uuid";
 import { Category, TaskData } from "../../types";
+import useTaskInserter from "../../hooks/useTaskInserter";
 
 type Props = {
     onAddTask?(task: TaskData): void;
 };
 
 const AddTask = (props: Props) => {
-    const [imageFiles, setImageFiles] = useState<Set<File>>(new Set());
     const [task, setTask] = useState("");
 
-    const mockCats: Category[] = [
-        {
-            name: "Development",
-            colorDegree: 233,
-        },
-        {
-            name: "Productivity",
-            colorDegree: 125,
-        },
-    ];
-
-    const addImageHandler = (files: FileList) => {
-        setImageFiles((paths) => {
-            const newSet = new Set([...paths, ...files]);
-
-            if (newSet.size > 10) {
-                alert("Can't add more than 10 pictures");
-                return paths;
-            }
-
-            return newSet;
-        });
-    };
-
-    const removeFileHandler = (file: File) => {
-        setImageFiles((paths) => {
-            const copyPaths = new Set(paths);
-            copyPaths.delete(file);
-            return copyPaths;
-        });
-    };
-
-    const addTaskHandler = () => {
-        if (!task.trim() || !props.onAddTask) return;
-        props.onAddTask({
-            id: uuidv4(),
-            title: task,
-            categories: ["Development"],
-            images: Array.from(imageFiles),
-        });
-        setTask("");
-        setImageFiles(new Set());
-    };
+    const {
+        addImageHandler,
+        addTaskHandler,
+        categories,
+        images,
+        removeImageHandler,
+    } = useTaskInserter(task, () => setTask(""));
 
     return (
         <Section title="Create a Task" card className={styles.card}>
-            {!!imageFiles.size && (
+            {!!images.size && (
                 <div className={styles.imgsList}>
-                    {[...imageFiles].map((file) => (
+                    {[...images].map((file) => (
                         <ImagePreview
                             file={file}
-                            onRemove={removeFileHandler}
+                            onRemove={removeImageHandler}
                         />
                     ))}
                     <label>
@@ -103,7 +66,7 @@ const AddTask = (props: Props) => {
                         />
                     </div>
                 </div>
-                {!imageFiles.size && (
+                {!images.size && (
                     <div className={styles.imageInput}>
                         <FileImageFilled />
                         Image
@@ -123,8 +86,8 @@ const AddTask = (props: Props) => {
             </div>
             {task.trim() && <div className={styles.divider} />}
             <footer className={task.trim() ? styles.show : ""}>
-                <Categories categories={mockCats} />
-                <button type="button" onClick={() => addTaskHandler()}>
+                <Categories categories={categories} />
+                <button type="button" onClick={addTaskHandler}>
                     Add Task
                 </button>
             </footer>

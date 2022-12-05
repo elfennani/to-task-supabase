@@ -6,22 +6,17 @@ import Tasks from "./Components/Tasks";
 import { TaskData } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import TasksContext from "./contexts/TasksContext";
+import TasksProvider from "./Providers/TasksProvider";
 
 function App() {
-    const [tasks, setTasks] = useState<TaskData[]>([]);
-
-    const addTaskHandler = (task: TaskData) => {
-        setTasks((tasks) => [...tasks, task]);
-    };
-
     return (
-        <TasksContext.Provider value={tasks}>
+        <TasksProvider>
             <Header />
             <div className="container">
-                <AddTask onAddTask={addTaskHandler} />
+                <AddTask />
                 <Tasks />
             </div>
-        </TasksContext.Provider>
+        </TasksProvider>
     );
 }
 
