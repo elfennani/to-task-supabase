@@ -8,11 +8,7 @@ type Props = {
 const ImagePreview = (props: Props) => {
     return (
         <div onClick={() => props.onRemove(props.file)}>
-            <img
-                src={URL.createObjectURL(props.file)}
-                alt={props.file.name}
-                key={props.file.name}
-            />
+            <img src={URL.createObjectURL(props.file)} alt={props.file.name} />
         </div>
     );
 };

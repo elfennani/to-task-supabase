@@ -41,8 +41,16 @@
     padding: 16px;
     background-color: white;
     border: 1px solid var(--border);
-    display: flex;
+    display: grid;
+    grid-template-columns: min-content 1fr 128px;
     gap: 16px;
+
+    img {
+        border: 1px solid var(--border);
+        max-height: 160px;
+        object-fit: cover;
+        justify-self: stretch;
+    }
 
     &.checked {
         opacity: 0.66;

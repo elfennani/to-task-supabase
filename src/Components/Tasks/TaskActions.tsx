@@ -5,12 +5,12 @@ import {
     IeSquareFilled,
     MinusSquareOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
 import styles from "./Tasks.module.scss";
 
 type Props = {
     checked: boolean;
     onToggle(): void;
+    onRemove(): void;
 };
 
 const TaskActions = (props: Props) => {
@@ -23,7 +23,7 @@ const TaskActions = (props: Props) => {
                     <MinusSquareOutlined />
                 )}
             </button>
-            <button type="button" title="Delete Task">
+            <button type="button" title="Delete Task" onClick={props.onRemove}>
                 <DeleteFilled />
             </button>
         </div>

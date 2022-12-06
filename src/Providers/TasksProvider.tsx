@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useMemo, useState } from "react";
 import ActionsContext, { Actions } from "../contexts/ActionsContext";
 import TasksContext from "../contexts/TasksContext";
 import { TaskData } from "../types";
@@ -18,10 +18,13 @@ const TasksProvider = (props: Props) => {
         setTasks((tasks) => tasks.filter((task) => task.id != uuid));
     };
 
-    const actions: Actions = {
-        addTask,
-        removeTask,
-    };
+    const actions = useMemo<Actions>(
+        () => ({
+            addTask,
+            removeTask,
+        }),
+        []
+    );
 
     return (
         <TasksContext.Provider value={tasks}>

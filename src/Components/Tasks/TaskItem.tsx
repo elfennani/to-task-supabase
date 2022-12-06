@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import ActionsContext from "../../contexts/ActionsContext";
+import CategoriesContext from "../../contexts/CategoriesContext";
 import { Category, TaskData } from "../../types";
 import Categories from "../Categories";
 import TaskActions from "./TaskActions";
@@ -10,27 +12,24 @@ type Props = {
 
 const TaskItem = ({ task }: Props) => {
     const [checked, setChecked] = useState(false);
-    const mockCats: Category[] = [
-        {
-            name: "Development",
-            colorDegree: 233,
-        },
-        {
-            name: "Productivity",
-            colorDegree: 125,
-        },
-    ];
+    const { removeTask } = useContext(ActionsContext);
+    const categories = useContext(CategoriesContext);
+
     return (
         <div className={`${styles.taskItem}  ${checked ? styles.checked : ""}`}>
             <TaskActions
                 checked={checked}
                 onToggle={() => setChecked((c) => !c)}
+                onRemove={() => removeTask(task.id)}
             />
 
             <div className={`${styles.content}`}>
                 <p>{task.title}</p>
-                <Categories categories={mockCats} />
+                <Categories ids={task.categories} />
             </div>
+            {task.images && (
+                <img src={URL.createObjectURL(task.images[0])} alt="" />
+            )}
         </div>
     );
 };

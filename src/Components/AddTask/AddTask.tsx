@@ -6,11 +6,14 @@ import {
     FileAddFilled,
     PlusOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ImagePreview from "./ImagePreview";
 import Categories from "../Categories";
+import { Portal } from "react-portal";
 import { Category, TaskData } from "../../types";
 import useTaskInserter from "../../hooks/useTaskInserter";
+import CategoriesContext from "../../contexts/CategoriesContext";
+import CategorySelectionModal from "../CategorySelectionModal";
 
 type Props = {
     onAddTask?(task: TaskData): void;
@@ -22,19 +25,23 @@ const AddTask = (props: Props) => {
     const {
         addImageHandler,
         addTaskHandler,
-        categories,
+        selectedCatsIds,
         images,
         removeImageHandler,
+        categoryModal,
+        openModal,
     } = useTaskInserter(task, () => setTask(""));
 
     return (
         <Section title="Create a Task" card className={styles.card}>
+            {categoryModal}
             {!!images.size && (
                 <div className={styles.imgsList}>
                     {[...images].map((file) => (
                         <ImagePreview
                             file={file}
                             onRemove={removeImageHandler}
+                            key={file.name}
                         />
                     ))}
                     <label>
@@ -54,7 +61,12 @@ const AddTask = (props: Props) => {
                     </label>
                 </div>
             )}
-            <div className={styles.addTask}>
+            <form
+                className={styles.addTask}
+                onKeyDown={(e) =>
+                    e.ctrlKey && e.key == "Enter" && addTaskHandler()
+                }
+            >
                 <div className={styles.input}>
                     <EditFilled />
                     <div className={styles.textHolder} data-content={task}>
@@ -83,10 +95,10 @@ const AddTask = (props: Props) => {
                         />
                     </div>
                 )}
-            </div>
+            </form>
             {task.trim() && <div className={styles.divider} />}
             <footer className={task.trim() ? styles.show : ""}>
-                <Categories categories={categories} />
+                <Categories ids={selectedCatsIds} onAdd={openModal} />
                 <button type="button" onClick={addTaskHandler}>
                     Add Task
                 </button>

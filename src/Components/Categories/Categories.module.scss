@@ -15,8 +15,16 @@
         transition: background-color 0.2s ease-in-out;
 
         &.add {
+            padding: 0;
             background-color: #e1e5ea;
             cursor: pointer;
+
+            button {
+                padding: 4px 8px;
+                border: none;
+                outline: none;
+                background-color: transparent;
+            }
 
             &:hover {
                 background-color: #d1d5db;

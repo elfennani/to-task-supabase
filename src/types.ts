@@ -6,6 +6,7 @@ export type TaskData = {
 };
 
 export type Category = {
+    uuid: string;
     name: string;
     colorDegree: number;
 };

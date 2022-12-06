@@ -8,7 +8,7 @@ import TasksContext from "../../contexts/TasksContext";
 
 type Props = {};
 
-const Task = (props: Props) => {
+const Tasks = (props: Props) => {
     const tasks = useContext(TasksContext);
     return (
         <Section
@@ -17,10 +17,10 @@ const Task = (props: Props) => {
             className={styles.innerContainer}
         >
             {tasks.map((task) => (
-                <TaskItem task={task} />
+                <TaskItem task={task} key={task.id} />
             ))}
         </Section>
     );
 };
 
-export default Task;
+export default Tasks;
