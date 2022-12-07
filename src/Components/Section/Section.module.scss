@@ -4,6 +4,17 @@
         color: #3f4c5a;
         text-transform: uppercase;
         letter-spacing: 0.84px;
+
+        .subtitle {
+            margin-left: 8px;
+            color: var(--grey);
+            font-weight: 400;
+        }
+    }
+
+    .list {
+        margin: 0;
+        padding: 0;
     }
 
     .card {

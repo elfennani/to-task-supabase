@@ -18,10 +18,19 @@ const TasksProvider = (props: Props) => {
         setTasks((tasks) => tasks.filter((task) => task.id != uuid));
     };
 
+    const toggleStatus = (uuid: string) => {
+        setTasks((tasks) =>
+            tasks.map((task) =>
+                task.id == uuid ? { ...task, done: !task.done } : task
+            )
+        );
+    };
+
     const actions = useMemo<Actions>(
         () => ({
             addTask,
             removeTask,
+            toggleStatus,
         }),
         []
     );

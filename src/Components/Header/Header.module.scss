@@ -6,6 +6,7 @@
     background-color: white;
     border-bottom: 2px solid var(--border);
     height: 96px;
+    z-index: 20;
 
     > div {
         display: flex;

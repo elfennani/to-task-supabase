@@ -45,11 +45,15 @@
     grid-template-columns: min-content 1fr 128px;
     gap: 16px;
 
-    img {
+    .thumbnail {
         border: 1px solid var(--border);
         max-height: 160px;
-        object-fit: cover;
-        justify-self: stretch;
+        align-self: stretch;
+
+        img {
+            object-fit: cover;
+            height: 100%;
+        }
     }
 
     &.checked {

@@ -4,11 +4,13 @@ import { Category } from "../types";
 import { Portal } from "react-portal";
 import { v4 as uuidv4 } from "uuid";
 import CategorySelectionModal from "../Components/CategorySelectionModal";
+import CategoriesContext from "../contexts/CategoriesContext";
 
 const useTaskInserter = (task: string, onClear: () => void) => {
     const [imageFiles, setImageFiles] = useState<Set<File>>(new Set());
+    const categories = useContext(CategoriesContext);
     const [selectedCatsIds, setSelectedCatsIds] = useState<Set<string>>(
-        new Set()
+        new Set([categories.map((cat) => cat.uuid)[0]])
     );
     const [catsModal, setCatsModal] = useState(false);
     const { addTask } = useContext(ActionsContext);
@@ -42,6 +44,8 @@ const useTaskInserter = (task: string, onClear: () => void) => {
             title: task,
             categories: [...selectedCatsIds],
             images: [...imageFiles],
+            done: false,
+            dateAdded: Date.now(),
         });
 
         onClear();

@@ -15,10 +15,21 @@ const Tasks = (props: Props) => {
             title="My Tasks"
             sectionClassName={styles.taskContainer}
             className={styles.innerContainer}
+            subtitle={`${tasks.filter((t) => t.done).length}/${
+                tasks.length
+            } done`}
+            isList
         >
-            {tasks.map((task) => (
-                <TaskItem task={task} key={task.id} />
-            ))}
+            {tasks
+                .sort((a, b) => b.dateAdded - a.dateAdded)
+                .sort((a, b) => {
+                    if (a.done && !b.done) return 1;
+                    if (!a.done && b.done) return -1;
+                    return 0;
+                })
+                .map((task) => (
+                    <TaskItem task={task} key={task.id} />
+                ))}
         </Section>
     );
 };

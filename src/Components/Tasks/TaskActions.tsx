@@ -16,7 +16,11 @@ type Props = {
 const TaskActions = (props: Props) => {
     return (
         <div className={styles.actions}>
-            <button type="button" title="Uncheck" onClick={props.onToggle}>
+            <button
+                type="button"
+                title={props.checked ? "Uncheck" : "Check"}
+                onClick={props.onToggle}
+            >
                 {props.checked ? (
                     <CheckSquareFilled />
                 ) : (

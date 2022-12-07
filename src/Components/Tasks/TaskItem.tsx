@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ActionsContext from "../../contexts/ActionsContext";
 import CategoriesContext from "../../contexts/CategoriesContext";
 import { Category, TaskData } from "../../types";
 import Categories from "../Categories";
+import ImageThumbnail from "./ImageThumbnail";
 import TaskActions from "./TaskActions";
 import styles from "./Tasks.module.scss";
 
@@ -11,26 +12,23 @@ type Props = {
 };
 
 const TaskItem = ({ task }: Props) => {
-    const [checked, setChecked] = useState(false);
-    const { removeTask } = useContext(ActionsContext);
-    const categories = useContext(CategoriesContext);
+    const { removeTask, toggleStatus } = useContext(ActionsContext);
+    const checked = task.done;
 
     return (
-        <div className={`${styles.taskItem}  ${checked ? styles.checked : ""}`}>
+        <li className={`${styles.taskItem}  ${checked ? styles.checked : ""}`}>
             <TaskActions
                 checked={checked}
-                onToggle={() => setChecked((c) => !c)}
+                onToggle={() => toggleStatus(task.id)}
                 onRemove={() => removeTask(task.id)}
             />
 
             <div className={`${styles.content}`}>
                 <p>{task.title}</p>
-                <Categories ids={task.categories} />
+                <Categories ids={task.categories} showEmpty />
             </div>
-            {task.images && (
-                <img src={URL.createObjectURL(task.images[0])} alt="" />
-            )}
-        </div>
+            {!!task.images.length && <ImageThumbnail images={task.images} />}
+        </li>
     );
 };
 

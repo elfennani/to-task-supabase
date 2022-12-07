@@ -3,6 +3,8 @@ export type TaskData = {
     title: string;
     images: File[] | FileList;
     categories: string[];
+    done: boolean;
+    dateAdded: number;
 };
 
 export type Category = {

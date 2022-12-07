@@ -1,23 +1,13 @@
 import Section from "../Section";
 import styles from "./AddTask.module.scss";
-import {
-    EditFilled,
-    FileImageFilled,
-    FileAddFilled,
-    PlusOutlined,
-} from "@ant-design/icons";
-import { useContext, useState } from "react";
+import { EditFilled, FileImageFilled, FileAddFilled } from "@ant-design/icons";
+import { useState } from "react";
 import ImagePreview from "./ImagePreview";
 import Categories from "../Categories";
-import { Portal } from "react-portal";
 import { Category, TaskData } from "../../types";
 import useTaskInserter from "../../hooks/useTaskInserter";
-import CategoriesContext from "../../contexts/CategoriesContext";
-import CategorySelectionModal from "../CategorySelectionModal";
 
-type Props = {
-    onAddTask?(task: TaskData): void;
-};
+type Props = {};
 
 const AddTask = (props: Props) => {
     const [task, setTask] = useState("");
@@ -36,30 +26,33 @@ const AddTask = (props: Props) => {
         <Section title="Create a Task" card className={styles.card}>
             {categoryModal}
             {!!images.size && (
-                <div className={styles.imgsList}>
+                <ul className={styles.imgsList}>
                     {[...images].map((file) => (
-                        <ImagePreview
-                            file={file}
-                            onRemove={removeImageHandler}
-                            key={file.name}
-                        />
+                        <li key={file.name}>
+                            <ImagePreview
+                                file={file}
+                                onRemove={removeImageHandler}
+                            />
+                        </li>
                     ))}
-                    <label>
-                        <FileAddFilled />
-                        Add More
-                        <input
-                            type="file"
-                            name="image"
-                            title="thumbnail"
-                            accept="image/*"
-                            multiple
-                            onChange={(e) =>
-                                e.target.files &&
-                                addImageHandler(e.target.files)
-                            }
-                        />
-                    </label>
-                </div>
+                    <li className={styles.add}>
+                        <label>
+                            <FileAddFilled />
+                            Add More
+                            <input
+                                type="file"
+                                name="image"
+                                title="thumbnail"
+                                accept="image/*"
+                                multiple
+                                onChange={(e) =>
+                                    e.target.files &&
+                                    addImageHandler(e.target.files)
+                                }
+                            />
+                        </label>
+                    </li>
+                </ul>
             )}
             <form
                 className={styles.addTask}
