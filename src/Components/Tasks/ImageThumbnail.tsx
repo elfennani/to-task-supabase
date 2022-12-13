@@ -1,14 +1,19 @@
 import styles from "./Tasks.module.scss";
 
 type Props = {
-    images: File[] | FileList;
+    images: string[];
 };
 
 const ImageThumbnail = ({ images }: Props) => {
     return (
-        <div className={styles.thumbnail}>
-            <img src={URL.createObjectURL(images[0])} alt="" />
-        </div>
+        <button className={styles.thumbnail} type="button" title="Open Image">
+            <img src={images[0]} alt="" />
+            {images.length > 1 && (
+                <div className={styles.moreImages}>
+                    <span>+{images.length - 1} more</span>
+                </div>
+            )}
+        </button>
     );
 };
 

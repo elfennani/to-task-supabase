@@ -15,9 +15,13 @@ const Tasks = (props: Props) => {
             title="My Tasks"
             sectionClassName={styles.taskContainer}
             className={styles.innerContainer}
-            subtitle={`${tasks.filter((t) => t.done).length}/${
+            subtitle={
                 tasks.length
-            } done`}
+                    ? `${tasks.filter((t) => t.done).length}/${
+                          tasks.length
+                      } done`
+                    : "no tasks to do"
+            }
             isList
         >
             {tasks

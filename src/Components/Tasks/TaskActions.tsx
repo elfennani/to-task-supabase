@@ -1,8 +1,6 @@
 import {
-    CheckCircleFilled,
     CheckSquareFilled,
     DeleteFilled,
-    IeSquareFilled,
     MinusSquareOutlined,
 } from "@ant-design/icons";
 import styles from "./Tasks.module.scss";
@@ -19,7 +17,10 @@ const TaskActions = (props: Props) => {
             <button
                 type="button"
                 title={props.checked ? "Uncheck" : "Check"}
-                onClick={props.onToggle}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    props.onToggle();
+                }}
             >
                 {props.checked ? (
                     <CheckSquareFilled />
@@ -27,7 +28,14 @@ const TaskActions = (props: Props) => {
                     <MinusSquareOutlined />
                 )}
             </button>
-            <button type="button" title="Delete Task" onClick={props.onRemove}>
+            <button
+                type="button"
+                title="Delete Task"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    props.onRemove();
+                }}
+            >
                 <DeleteFilled />
             </button>
         </div>

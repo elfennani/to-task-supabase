@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styles from "./Header.module.scss";
 
 type Props = {};
@@ -7,13 +8,27 @@ const Header = (props: Props) => {
         <header className={styles.header}>
             <div className="container">
                 <h1>
-                    To<span className="primary">Task</span>
+                    <NavLink to={"/"}>
+                        To<span className="primary">Task</span>
+                    </NavLink>
                 </h1>
                 <nav>
-                    <a href="#" className={styles.active}>
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            isActive ? styles.active : undefined
+                        }
+                    >
                         All Tasks
-                    </a>
-                    <a href="#">Grouped</a>
+                    </NavLink>
+                    <NavLink
+                        to="/categories"
+                        className={({ isActive }) =>
+                            isActive ? styles.active : undefined
+                        }
+                    >
+                        Grouped
+                    </NavLink>
                 </nav>
             </div>
         </header>

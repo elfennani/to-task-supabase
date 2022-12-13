@@ -1,7 +1,7 @@
 export type TaskData = {
     id: string;
     title: string;
-    images: File[] | FileList;
+    images: string[];
     categories: string[];
     done: boolean;
     dateAdded: number;

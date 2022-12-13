@@ -43,7 +43,7 @@ const useTaskInserter = (task: string, onClear: () => void) => {
             id: uuidv4(),
             title: task,
             categories: [...selectedCatsIds],
-            images: [...imageFiles],
+            images: [...imageFiles].map((file) => URL.createObjectURL(file)),
             done: false,
             dateAdded: Date.now(),
         });

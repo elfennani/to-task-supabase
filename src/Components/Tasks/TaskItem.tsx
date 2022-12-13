@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ActionsContext from "../../contexts/ActionsContext";
 import CategoriesContext from "../../contexts/CategoriesContext";
 import { Category, TaskData } from "../../types";
@@ -14,9 +15,13 @@ type Props = {
 const TaskItem = ({ task }: Props) => {
     const { removeTask, toggleStatus } = useContext(ActionsContext);
     const checked = task.done;
+    const navigate = useNavigate();
 
     return (
-        <li className={`${styles.taskItem}  ${checked ? styles.checked : ""}`}>
+        <li
+            className={`${styles.taskItem}  ${checked ? styles.checked : ""}`}
+            onClick={() => navigate(`/task/${task.id}`)}
+        >
             <TaskActions
                 checked={checked}
                 onToggle={() => toggleStatus(task.id)}

@@ -1,5 +1,4 @@
 .taskContainer {
-    margin-top: 32px;
     margin-bottom: 32px;
 
     .innerContainer {
@@ -49,10 +48,36 @@
         border: 1px solid var(--border);
         max-height: 160px;
         align-self: stretch;
+        position: relative;
+        background: none;
+        outline: none;
+        display: block;
 
         img {
             object-fit: cover;
             height: 100%;
+        }
+
+        .moreImages {
+            display: flex;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba($color: #000000, $alpha: 0.34);
+            color: white;
+            font-weight: 600;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            user-select: none;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        &:hover .moreImages {
+            opacity: 1;
         }
     }
 
