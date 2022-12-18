@@ -20,6 +20,10 @@ import {
 import ActionsContext from "../contexts/ActionsContext";
 import ImageList from "../Components/ImageList";
 import { Portal } from "react-portal";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { loadTasks } from "../functions";
+import { TaskData } from "../types";
+import useTaskActions from "../hooks/useTaskActions";
 
 type Props = {};
 
@@ -105,21 +109,32 @@ const ImageOverlay = styled.div`
 `;
 
 const Task = (props: Props) => {
-    const params = useParams();
-    const tasks = useContext(TasksContext);
-    const { toggleStatus, removeTask } = useContext(ActionsContext);
-    const navigate = useNavigate();
-    const [imageUrl, setImageUrl] = useState("");
-    const task = useMemo(
-        () => tasks.find((t) => t.id == params.id),
-        [params, tasks]
+    const { id } = useParams();
+    const qc = useQueryClient();
+    const tasks = qc.getQueryData<TaskData[]>(["tasks"]);
+    const initialData = tasks && tasks.find((t) => t.id == id);
+
+    const { data, isLoading, isError, error } = useQuery(
+        ["task", id],
+        () => loadTasks(id),
+        {
+            initialData: initialData ? [initialData] : null,
+        }
     );
+    const navigate = useNavigate();
+    const { toggleStatus, removeTask } = useTaskActions(id as string, () =>
+        navigate("/")
+    );
+    const [imageUrl, setImageUrl] = useState("");
 
-    useEffect(() => {
-        if (!task) navigate("/");
-    }, [task]);
+    // useEffect(() => {
+    //     if (!isLoading && !isError && !data) navigate("/");
+    // }, [data, isLoading, isError]);
 
-    if (!task) return <></>;
+    if (isLoading || !data) return <p>Loading...</p>;
+    if (isError) return <p className="red">Error: {error as string}</p>;
+
+    const task = data[0];
 
     return (
         <>
@@ -142,12 +157,12 @@ const Task = (props: Props) => {
             </Card>
             <ActionsButtonList>
                 <li>
-                    <button onClick={() => removeTask(task.id)}>
+                    <button onClick={() => removeTask()}>
                         <DeleteFilled /> Remove Task
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => toggleStatus(task.id)}>
+                    <button onClick={() => toggleStatus(task.done)}>
                         {task.done ? (
                             <>
                                 <CheckSquareFilled /> Done

@@ -1,7 +1,10 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ActionsContext from "../../contexts/ActionsContext";
 import CategoriesContext from "../../contexts/CategoriesContext";
+import useTaskActions from "../../hooks/useTaskActions";
+import supabase from "../../supabase";
 import { Category, TaskData } from "../../types";
 import Categories from "../Categories";
 import ImageThumbnail from "./ImageThumbnail";
@@ -13,9 +16,9 @@ type Props = {
 };
 
 const TaskItem = ({ task }: Props) => {
-    const { removeTask, toggleStatus } = useContext(ActionsContext);
     const checked = task.done;
     const navigate = useNavigate();
+    const { removeTask, toggleStatus } = useTaskActions(task.id);
 
     return (
         <li
@@ -24,8 +27,8 @@ const TaskItem = ({ task }: Props) => {
         >
             <TaskActions
                 checked={checked}
-                onToggle={() => toggleStatus(task.id)}
-                onRemove={() => removeTask(task.id)}
+                onToggle={() => toggleStatus(checked)}
+                onRemove={() => removeTask()}
             />
 
             <div className={`${styles.content}`}>

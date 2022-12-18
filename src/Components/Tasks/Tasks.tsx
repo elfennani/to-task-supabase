@@ -5,23 +5,37 @@ import styles from "./Tasks.module.scss";
 import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
 import TasksContext from "../../contexts/TasksContext";
+import { useQuery } from "@tanstack/react-query";
+import { loadTasks } from "../../functions";
 
 type Props = {};
 
 const Tasks = (props: Props) => {
-    const tasks = useContext(TasksContext);
+    // const tasks = useContext(TasksContext);
+    const {
+        data: tasks,
+        isLoading,
+        isError,
+        error,
+        isRefetching,
+    } = useQuery(["tasks"], () => loadTasks());
+
+    if (isError) return <p className="red">{error as any}</p>;
+
+    if (isLoading) return <p>Loading...</p>;
+
     return (
         <Section
             title="My Tasks"
             sectionClassName={styles.taskContainer}
             className={styles.innerContainer}
-            subtitle={
+            subtitle={`${
                 tasks.length
                     ? `${tasks.filter((t) => t.done).length}/${
                           tasks.length
                       } done`
                     : "no tasks to do"
-            }
+            }${isRefetching ? " refetching" : ""}`}
             isList
         >
             {tasks

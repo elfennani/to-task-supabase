@@ -5,10 +5,12 @@ export type Actions = {
     addTask: (task: TaskData) => void;
     removeTask: (uuid: string) => void;
     toggleStatus: (uuid: string) => void;
+    refresh: () => void;
 };
 
 export default createContext<Actions>({
     addTask(task) {},
     removeTask(uuid) {},
     toggleStatus(uuid) {},
+    refresh() {},
 });

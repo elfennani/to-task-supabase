@@ -1,5 +1,6 @@
 :root {
     --primary: #1582ff;
+    --primaryDark: hsl(212, 95%, 54%);
     --border: #e7eaf0;
     --text: #000c1a;
     --grey: #8798ab;

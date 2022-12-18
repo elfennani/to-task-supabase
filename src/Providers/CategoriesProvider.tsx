@@ -1,40 +1,80 @@
-import { ReactElement, useContext, useMemo, useState } from "react";
+import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import CategoriesActionsContext, {
     CategoriesActions,
 } from "../contexts/CategoriesActionsContext";
 import CategoriesContext from "../contexts/CategoriesContext";
 import { Category } from "../types";
 import { v4 as uuidv4 } from "uuid";
+import supabase from "../supabase";
 
 type Props = {
     children: ReactElement | ReactElement[];
 };
 
 const CategoriesProvider = (props: Props) => {
-    const [cats, setCats] = useState<Category[]>([
-        {
-            uuid: uuidv4(),
-            name: "Development",
-            colorDegree: 125,
-        },
-        {
-            uuid: uuidv4(),
-            name: "Planning",
-            colorDegree: 230,
-        },
-    ]);
+    const [cats, setCats] = useState<Category[]>([]);
+
+    const removeCategory = async (id: number) => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) return;
+
+        await supabase
+            .from("categories")
+            .delete()
+            .eq("user_id", user.id)
+            .eq("id", id);
+
+        loadCategories();
+    };
 
     const actions = useMemo<CategoriesActions>(
         () => ({
-            add(cat) {
-                setCats((cats) => [...cats, { ...cat, uuid: uuidv4() }]);
+            add: async (cat) => {
+                const {
+                    data: { user },
+                } = await supabase.auth.getUser();
+                if (!user) return;
+
+                const { data } = await supabase.from("categories").insert({
+                    name: cat.name,
+                    hue: cat.colorDegree,
+                    user_id: user.id,
+                });
+
+                loadCategories();
             },
-            remove(uuid) {
-                setCats((cats) => cats.filter((cat) => cat.uuid != uuid));
-            },
+            remove: removeCategory,
         }),
         []
     );
+
+    const loadCategories = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+            .from("categories")
+            .select("*")
+            .eq("user_id", user.id);
+
+        if (data) {
+            setCats(
+                data.map((cat) => ({
+                    uuid: cat.id,
+                    name: cat.name,
+                    colorDegree: cat.hue,
+                }))
+            );
+        }
+    };
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
 
     return (
         <CategoriesContext.Provider value={cats}>

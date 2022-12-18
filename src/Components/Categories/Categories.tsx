@@ -7,7 +7,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import CategoryItem from "./CategoryItem";
 
 type Props = {
-    ids: string[];
+    ids: number[];
     onAdd?: () => void;
     showEmpty?: boolean;
 };

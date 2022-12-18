@@ -3,7 +3,7 @@ import { Category } from "../../types";
 import styles from "./Modal.module.scss";
 
 type Props = {
-    onAdd: (cat: Category) => void;
+    onAdd: (cat: { colorDegree: number; name: string }) => void;
 };
 
 const CategoryInput = (props: Props) => {
@@ -13,7 +13,6 @@ const CategoryInput = (props: Props) => {
     const addCatHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key == "Enter") {
             props.onAdd({
-                uuid: "",
                 colorDegree: degree,
                 name: name,
             });
@@ -23,7 +22,7 @@ const CategoryInput = (props: Props) => {
     };
 
     return (
-        <div className={styles.catInput}>
+        <li className={styles.catInput}>
             <input
                 type="text"
                 placeholder="Add Category"
@@ -42,7 +41,7 @@ const CategoryInput = (props: Props) => {
                 value={degree}
                 onChange={(e) => setDegree(+e.target.value)}
             />
-        </div>
+        </li>
     );
 };
 

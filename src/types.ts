@@ -2,13 +2,18 @@ export type TaskData = {
     id: string;
     title: string;
     images: string[];
-    categories: string[];
+    categories: number[];
     done: boolean;
     dateAdded: number;
 };
 
 export type Category = {
-    uuid: string;
+    uuid: number;
     name: string;
     colorDegree: number;
+};
+
+export type Image = {
+    type: string;
+    file: File;
 };
