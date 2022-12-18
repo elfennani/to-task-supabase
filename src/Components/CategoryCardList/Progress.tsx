@@ -3,7 +3,7 @@ import TasksContext from "../../contexts/TasksContext";
 import styles from "./Card.module.scss";
 
 type Props = {
-    uuid: string;
+    uuid: number;
 };
 
 const Progress = ({ uuid }: Props) => {
