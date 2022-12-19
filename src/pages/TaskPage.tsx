@@ -24,6 +24,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { loadTasks } from "../functions";
 import { TaskData } from "../types";
 import useTaskActions from "../hooks/useTaskActions";
+import Image from "../Components/Tasks/Image";
 
 type Props = {};
 
@@ -141,7 +142,7 @@ const Task = (props: Props) => {
             {!!imageUrl && (
                 <Portal>
                     <ImageOverlay onClick={() => setImageUrl("")}>
-                        <img src={imageUrl} alt="" />
+                        <Image image={imageUrl} taskId={task.id} />
                     </ImageOverlay>
                 </Portal>
             )}
@@ -150,6 +151,7 @@ const Task = (props: Props) => {
                     <ImageList
                         onImageView={(url) => setImageUrl(url)}
                         images={task.images}
+                        task_id={task.id}
                     />
                 )}
                 <h1>{task.title}</h1>

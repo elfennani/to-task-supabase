@@ -1,10 +1,12 @@
 import { EyeFilled } from "@ant-design/icons";
 import { useMemo } from "react";
 import styled from "styled-components";
+import Image from "./Tasks/Image";
 
 type Props = {
     images: string[];
     onImageView: (imageUrl: string) => void;
+    task_id: string;
 };
 
 const ImageListStyle = styled.ul`
@@ -52,12 +54,12 @@ const ImageListStyle = styled.ul`
     }
 `;
 
-function ImageList({ images, onImageView }: Props) {
+function ImageList({ images, onImageView, task_id }: Props) {
     return (
         <ImageListStyle>
             {images.map((src, index) => (
                 <li key={index} onClick={() => onImageView(src)}>
-                    <img src={src} alt="" />
+                    <Image image={src} taskId={task_id} />
                     <div className="overlay">
                         <EyeFilled /> <span>View Image</span>
                     </div>

@@ -9,7 +9,7 @@ type Props = {};
 
 const CategoryCardList = (props: Props) => {
     const categories = useContext(CategoriesContext);
-    const [autoAnimate] = useAutoAnimate();
+
     return (
         <Section title="My Categories" className={styles.list} isList>
             {categories.map((cat) => (

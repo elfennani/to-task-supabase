@@ -1,5 +1,6 @@
-import { useContext, useMemo } from "react";
-import TasksContext from "../../contexts/TasksContext";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { loadTasks } from "../../functions";
 import { Category } from "../../types";
 import styles from "./Card.module.scss";
 import Progress from "./Progress";
@@ -9,12 +10,16 @@ type Props = {
 };
 
 const CategoryCard = ({ cat: { uuid, colorDegree, name } }: Props) => {
-    const tasks = useContext(TasksContext);
+    const { data: tasks } = useQuery(["tasks"], () => loadTasks());
 
     const isEmpty: boolean = useMemo(
-        () => !tasks.filter((task) => task.categories.includes(uuid)).length,
+        () =>
+            !!tasks &&
+            !tasks.filter((task) => task.categories.includes(uuid)).length,
         [tasks]
     );
+
+    console.log(isEmpty);
 
     if (isEmpty) return <></>;
 

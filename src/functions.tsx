@@ -22,13 +22,34 @@ export const loadTasks = async (
             "task_id",
             data.map((task) => task.id)
         );
+    const imagesDataPromies = async (task: any) =>
+        await new Promise(async (res, rej) => {
+            const data = await supabase.storage
+                .from("images")
+                .list(`${user.id}/${task.id}/`, {
+                    limit: 5,
+                });
+
+            res({
+                data,
+                task_id: task.id,
+            });
+        });
+
+    let images = data.map((task) => imagesDataPromies(task));
+
+    let imagesBuckets = await Promise.all(images);
+
+    console.log(imagesBuckets);
 
     if (!categories) throw "Failed to retrive task categories";
 
     return data.map((task) => ({
         id: task.id,
         title: task.title,
-        images: [],
+        images: (imagesBuckets as any[])
+            .find((imageData) => imageData.task_id == task.id)
+            .data.data.map((image: any) => image.name),
         done: task.done,
         dateAdded: new Date(task["Date Added"]).valueOf(),
         categories: categories

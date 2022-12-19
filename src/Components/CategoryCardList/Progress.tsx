@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { useContext, useMemo } from "react";
 import TasksContext from "../../contexts/TasksContext";
+import { loadTasks } from "../../functions";
 import styles from "./Card.module.scss";
 
 type Props = {
@@ -7,9 +9,14 @@ type Props = {
 };
 
 const Progress = ({ uuid }: Props) => {
-    const tasks = useContext(TasksContext);
+    const {
+        isLoading,
+        data: tasks,
+        isError,
+    } = useQuery(["tasks"], () => loadTasks());
 
     const [done, total] = useMemo(() => {
+        if (!tasks) return [0, 0];
         const filteredTasks = tasks.filter((task) =>
             task.categories.includes(uuid)
         );
@@ -19,6 +26,9 @@ const Progress = ({ uuid }: Props) => {
 
         return [done, total];
     }, [tasks]);
+
+    if (isLoading) return <>Loading</>;
+    if (isError) return <>Error</>;
 
     return (
         <>

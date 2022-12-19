@@ -35,7 +35,10 @@ const TaskItem = ({ task }: Props) => {
                 <p>{task.title}</p>
                 <Categories ids={task.categories} showEmpty />
             </div>
-            {!!task.images.length && <ImageThumbnail images={task.images} />}
+
+            {!!task.images.length && (
+                <ImageThumbnail task_id={task.id} images={task.images} />
+            )}
         </li>
     );
 };
